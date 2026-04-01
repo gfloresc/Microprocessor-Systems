@@ -1,0 +1,341 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2822
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red95\green105\blue110;\red255\green255\blue254;\red0\green0\blue0;
+\red0\green0\blue255;\red144\green1\blue18;\red19\green118\blue70;\red35\green22\blue178;}
+{\*\expandedcolortbl;;\cssrgb\c44706\c48627\c50588;\cssrgb\c100000\c100000\c99608;\cssrgb\c0\c0\c0;
+\cssrgb\c0\c0\c100000;\cssrgb\c63922\c8235\c8235;\cssrgb\c3529\c52549\c34510;\cssrgb\c18824\c18824\c75294;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs24 \cf2 \cb3 \expnd0\expndtw0\kerning0
+\outl0\strokewidth0 \strokec2 /* USER CODE BEGIN Header */\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   ******************************************************************************\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @file           : main.c\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief          : Main program body\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   ******************************************************************************\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @attention\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   *\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * Copyright (c) 2025 STMicroelectronics.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * All rights reserved.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   *\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * This software is licensed under terms that can be found in the LICENSE file\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * in the root directory of this software component.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * If no LICENSE file comes with this software, it is provided AS-IS.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   *\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   ******************************************************************************\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE END Header */\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* Includes ------------------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 #include\cf0 \strokec4  \cf5 \strokec5 "\cf6 \strokec6 stm32c0xx_hal.h\cf5 \strokec5 "\cf0 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 #include\cf0 \strokec4  \cf5 \strokec5 <\cf6 \strokec6 stdio.h\cf5 \strokec5 >\cf0 \cb1 \strokec4 \
+\cf5 \cb3 \strokec5 #include\cf0 \strokec4  \cf5 \strokec5 <\cf6 \strokec6 stdint.h\cf5 \strokec5 >\cf0 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* Private includes ----------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN Includes */\cf0 \cb1 \strokec4 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 const\cf0 \strokec4  \cf5 \strokec5 uint8_t\cf0 \strokec4  segment_map[\cf7 \strokec7 10\cf0 \strokec4 ] = \{\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4     \cf7 \strokec7 0b00111111\cf0 \strokec4 ,  \cf2 \strokec2 // 0\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b00000110\cf0 \strokec4 ,  \cf2 \strokec2 // 1\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01011011\cf0 \strokec4 ,  \cf2 \strokec2 // 2\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01001111\cf0 \strokec4 ,  \cf2 \strokec2 // 3\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01100110\cf0 \strokec4 ,  \cf2 \strokec2 // 4\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01101101\cf0 \strokec4 ,  \cf2 \strokec2 // 5\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01111101\cf0 \strokec4 ,  \cf2 \strokec2 // 6\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b00000111\cf0 \strokec4 ,  \cf2 \strokec2 // 7\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01111111\cf0 \strokec4 ,  \cf2 \strokec2 // 8\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     \cf7 \strokec7 0b01101111\cf0 \strokec4    \cf2 \strokec2 // 9\cf0 \cb1 \strokec4 \
+\cb3 \strokec4 \};\cb1 \strokec4 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE END Includes */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* Private typedef -----------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN PTD */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* USER CODE END PTD */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* Private define ------------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN PD */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* USER CODE END PD */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* Private macro -------------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN PM */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* USER CODE END PM */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* Private variables ---------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 ADC_HandleTypeDef hadc1;\cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN PV */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* USER CODE END PV */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* Private function prototypes -----------------------------------------------*/\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 void\cf0 \strokec4  SystemClock_Config(\cf5 \strokec5 void\cf0 \strokec4 );\cb1 \strokec4 \
+\cf5 \cb3 \strokec5 static\cf0 \strokec4  \cf5 \strokec5 void\cf0 \strokec4  MX_GPIO_Init(\cf5 \strokec5 void\cf0 \strokec4 );\cb1 \strokec4 \
+\cf5 \cb3 \strokec5 static\cf0 \strokec4  \cf5 \strokec5 void\cf0 \strokec4  MX_ADC1_Init(\cf5 \strokec5 void\cf0 \strokec4 );\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN PFP */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* USER CODE END PFP */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* Private user code ---------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN 0 */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 void\cf0 \strokec4  DisplayNumber(\cf5 \strokec5 uint8_t\cf0 \strokec4 ); \cf2 \strokec2 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-==>\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE END 0 */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief  The application entry point.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @retval int\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 int\cf0 \strokec4  main(\cf5 \strokec5 void\cf0 \strokec4 )\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \{\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN 1 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END 1 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* MCU Configuration--------------------------------------------------------*/\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* Reset of all peripherals, Initializes the Flash interface and the Systick. */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   HAL_Init();\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN Init */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END Init */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* Configure the system clock */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   SystemClock_Config();\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN SysInit */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END SysInit */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* Initialize all configured peripherals */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   MX_GPIO_Init();\cb1 \strokec4 \
+\cb3 \strokec4   MX_ADC1_Init();\cb1 \strokec4 \
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN 2 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END 2 */\cf0 \cb1 \strokec4 \
+\
+\
+\cb3 \strokec4   \cf2 \strokec2 /* Infinite loop */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN WHILE */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf5 \strokec5 while\cf0 \strokec4  (\cf7 \strokec7 1\cf0 \strokec4 )\cb1 \strokec4 \
+\cb3 \strokec4   \{\cb1 \strokec4 \
+\cb3 \strokec4     \cf2 \strokec2 /* USER CODE END WHILE */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4     HAL_ADC_Start(&hadc1);\cb1 \strokec4 \
+\cb3 \strokec4         HAL_ADC_PollForConversion(&hadc1, HAL_MAX_DELAY);\cb1 \strokec4 \
+\cb3 \strokec4         \cf5 \strokec5 uint32_t\cf0 \strokec4  adc_value = HAL_ADC_GetValue(&hadc1);\cb1 \strokec4 \
+\cb3 \strokec4         HAL_ADC_Stop(&hadc1);\cb1 \strokec4 \
+\
+\cb3 \strokec4         \cf2 \strokec2 // Escalar ADC (0-4095) a (0-9)\cf0 \cb1 \strokec4 \
+\cb3 \strokec4          \cf5 \strokec5 uint8_t\cf0 \strokec4  display_num = (adc_value * \cf7 \strokec7 10\cf0 \strokec4 ) / \cf7 \strokec7 4095\cf0 \strokec4 ;\cb1 \strokec4 \
+\cb3 \strokec4         DisplayNumber(display_num);\cb1 \strokec4 \
+\cb3 \strokec4         HAL_Delay(\cf7 \strokec7 200\cf0 \strokec4 );\cb1 \strokec4 \
+\
+\cb3 \strokec4     \cf2 \strokec2 /* USER CODE BEGIN 3 */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   \}\cb1 \strokec4 \
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END 3 */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4 \}\cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief System Clock Configuration\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @retval None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 void\cf0 \strokec4  SystemClock_Config(\cf5 \strokec5 void\cf0 \strokec4 )\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \{\cb1 \strokec4 \
+\cb3 \strokec4   RCC_OscInitTypeDef RCC_OscInitStruct = \{\cf7 \strokec7 0\cf0 \strokec4 \};\cb1 \strokec4 \
+\cb3 \strokec4   RCC_ClkInitTypeDef RCC_ClkInitStruct = \{\cf7 \strokec7 0\cf0 \strokec4 \};\cb1 \strokec4 \
+\
+\cb3 \strokec4   __HAL_FLASH_SET_LATENCY(FLASH_LATENCY_1);\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /** Initializes the RCC Oscillators according to the specified parameters\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2   * in the RCC_OscInitTypeDef structure.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;\cb1 \strokec4 \
+\cb3 \strokec4   RCC_OscInitStruct.HSEState = RCC_HSE_ON;\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /** Initializes the CPU, AHB and APB buses clocks\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK\cb1 \strokec4 \
+\cb3 \strokec4                               |RCC_CLOCKTYPE_PCLK1;\cb1 \strokec4 \
+\cb3 \strokec4   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSE;\cb1 \strokec4 \
+\cb3 \strokec4   RCC_ClkInitStruct.SYSCLKDivider = RCC_SYSCLK_DIV1;\cb1 \strokec4 \
+\cb3 \strokec4   RCC_ClkInitStruct.AHBCLKDivider = RCC_HCLK_DIV1;\cb1 \strokec4 \
+\cb3 \strokec4   RCC_ClkInitStruct.APB1CLKDivider = RCC_APB1_DIV1;\cb1 \strokec4 \
+\
+\cb3 \strokec4 \}\cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief ADC1 Initialization Function\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @param None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @retval None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 static\cf0 \strokec4  \cf5 \strokec5 void\cf0 \strokec4  MX_ADC1_Init(\cf5 \strokec5 void\cf0 \strokec4 )\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \{\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN ADC1_Init 0 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END ADC1_Init 0 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   ADC_ChannelConfTypeDef sConfig = \{\cf7 \strokec7 0\cf0 \strokec4 \};\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN ADC1_Init 1 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END ADC1_Init 1 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /** Configure the global features of the ADC (Clock, Resolution, Data Alignment and number of conversion)\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   hadc1.Instance = ADC1;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV2;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.Resolution = ADC_RESOLUTION_12B;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.ScanConvMode = ADC_SCAN_SEQ_FIXED;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.EOCSelection = ADC_EOC_SINGLE_CONV;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.LowPowerAutoWait = DISABLE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.LowPowerAutoPowerOff = DISABLE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.ContinuousConvMode = DISABLE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.NbrOfConversion = \cf7 \strokec7 1\cf0 \strokec4 ;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.DiscontinuousConvMode = DISABLE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.ExternalTrigConv = ADC_SOFTWARE_START;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.ExternalTrigConvEdge = ADC_EXTERNALTRIGCONVEDGE_NONE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.DMAContinuousRequests = DISABLE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.Overrun = ADC_OVR_DATA_PRESERVED;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.SamplingTimeCommon1 = ADC_SAMPLETIME_1CYCLE_5;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.OversamplingMode = DISABLE;\cb1 \strokec4 \
+\cb3 \strokec4   hadc1.Init.TriggerFrequencyMode = ADC_TRIGGER_FREQ_HIGH;\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /** Configure Regular Channel\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   sConfig.Channel = ADC_CHANNEL_0;\cb1 \strokec4 \
+\cb3 \strokec4   sConfig.Rank = ADC_RANK_CHANNEL_NUMBER;\cb1 \strokec4 \
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN ADC1_Init 2 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE END ADC1_Init 2 */\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4   HAL_ADC_ConfigChannel(&hadc1, &sConfig); \cf2 \strokec2 // =-=-=-=-=-=-=-=-=-=-=-=-=> it was in the Error_Handler\cf0 \cb1 \strokec4 \
+\
+\cb3 \strokec4 \}\cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief GPIO Initialization Function\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @param None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @retval None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 static\cf0 \strokec4  \cf5 \strokec5 void\cf0 \strokec4  MX_GPIO_Init(\cf5 \strokec5 void\cf0 \strokec4 )\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \{\cb1 \strokec4 \
+\cb3 \strokec4   GPIO_InitTypeDef GPIO_InitStruct = \{\cf7 \strokec7 0\cf0 \strokec4 \};\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN MX_GPIO_Init_1 */\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE END MX_GPIO_Init_1 */\cf0 \cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   \cf2 \strokec2 /* GPIO Ports Clock Enable */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   __HAL_RCC_GPIOC_CLK_ENABLE();\cb1 \strokec4 \
+\cb3 \strokec4   __HAL_RCC_GPIOF_CLK_ENABLE();\cb1 \strokec4 \
+\cb3 \strokec4   __HAL_RCC_GPIOA_CLK_ENABLE();\cb1 \strokec4 \
+\cb3 \strokec4   __HAL_RCC_GPIOB_CLK_ENABLE();\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /*Configure GPIO pin Output Level */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3\cb1 \strokec4 \
+\cb3 \strokec4                           |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6, GPIO_PIN_RESET);\cb1 \strokec4 \
+\
+\cb3 \strokec4   \cf2 \strokec2 /*Configure GPIO pins : PB0 PB1 PB2 PB3\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2                            PB4 PB5 PB6 */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_3\cb1 \strokec4 \
+\cb3 \strokec4                           |GPIO_PIN_4|GPIO_PIN_5|GPIO_PIN_6;\cb1 \strokec4 \
+\cb3 \strokec4   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;\cb1 \strokec4 \
+\cb3 \strokec4   GPIO_InitStruct.Pull = GPIO_NOPULL;\cb1 \strokec4 \
+\cb3 \strokec4   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;\cb1 \strokec4 \
+\cb3 \strokec4   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);\cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN MX_GPIO_Init_2 */\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2 /* USER CODE END MX_GPIO_Init_2 */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \}\cb1 \strokec4 \
+\
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /* USER CODE BEGIN 4 */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /* USER CODE END 4 */\cf0 \cb1 \strokec4 \
+\
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief  This function is executed in case of error occurrence.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @retval None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 #ifdef\cf0 \strokec4   USE_FULL_ASSERT\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2 /**\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @brief  Reports the name of the source file and the source line number\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   *         where the assert_param error has occurred.\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @param  file: pointer to the source file name\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @param  line: assert_param error line source number\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   * @retval None\cf0 \cb1 \strokec4 \
+\cf2 \cb3 \strokec2   */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 void\cf0 \strokec4  assert_failed(\cf5 \strokec5 uint8_t\cf0 \strokec4  *file, \cf5 \strokec5 uint32_t\cf0 \strokec4  line)\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \{\cb1 \strokec4 \
+\cb3 \strokec4   \cf2 \strokec2 /* USER CODE BEGIN 6 */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   \cf2 \strokec2 /* User can add his own implementation to report the file name and line number,\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf2 \cb3 \strokec2      ex: printf("Wrong parameters value: file %s on line %d\\r\\n", file, line) */\cf0 \cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4   \cf2 \strokec2 /* USER CODE END 6 */\cf0 \cb1 \strokec4 \
+\cb3 \strokec4 \}\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf5 \cb3 \strokec5 #endif\cf0 \strokec4  \cf2 \strokec2 /* USE_FULL_ASSERT */\cf0 \cb1 \strokec4 \
+\
+\
+\
+\
+\cf5 \cb3 \strokec5 void\cf0 \strokec4  DisplayNumber(\cf5 \strokec5 uint8_t\cf0 \strokec4  number)\cb1 \strokec4 \
+\pard\pardeftab720\partightenfactor0
+\cf0 \cb3 \strokec4 \{\cb1 \strokec4 \
+\cb3 \strokec4   \cf5 \strokec5 uint8_t\cf0 \strokec4  pattern = segment_map[number]; \cf2 \strokec2 // Get pattern for digit 0\'969\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   GPIOB->ODR &= ~\cf8 \strokec8 0x7F\cf0 \strokec4 ;    \cf2 \strokec2 // Clear PA0\'96PA6 (0x7F = 0b01111111)\cf0 \cb1 \strokec4 \
+\cb3 \strokec4   GPIOB->ODR |= pattern;  \cf2 \strokec2 // Output the segment pattern\cf0 \cb1 \strokec4 \
+\cb3 \strokec4 \}\cb1 \strokec4 \
+}
