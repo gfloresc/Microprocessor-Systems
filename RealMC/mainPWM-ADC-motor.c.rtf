@@ -1,0 +1,210 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2868
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fnil\fcharset0 Menlo-Bold;\f1\fnil\fcharset0 Menlo-Regular;}
+{\colortbl;\red255\green255\blue255;\red127\green0\blue85;\red42\green0\blue255;\red63\green127\blue95;
+\red0\green80\blue50;\red0\green0\blue192;}
+{\*\expandedcolortbl;;\csgenericrgb\c49804\c0\c33333;\csgenericrgb\c16471\c0\c100000;\csgenericrgb\c24706\c49804\c37255;
+\csgenericrgb\c0\c31373\c19608;\csgenericrgb\c0\c0\c75294;}
+\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\b\fs24 \cf2 #include
+\f1\b0 \cf0  \cf3 "stm32f446xx.h"\cf0 \
+\
+
+\f0\b \cf2 #define
+\f1\b0 \cf0  SERVO_MIN  100U   \cf4 /* 1.0 \ul ms\ulnone  pulse */\cf0 \
+
+\f0\b \cf2 #define
+\f1\b0 \cf0  SERVO_MAX  200U   \cf4 /* 2.0 \ul ms\ulnone  pulse */\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf4 // Connect D12 to \ul servo\ulnone , and voltage to 5v, potentiometer to 3.3 and ground and A0\cf0 \
+\cf4 // Use stable input voltage not a low \ul volateg\ulnone  battery\cf0 \
+\
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 static
+\f1\b0 \cf0  
+\f0\b \cf2 void
+\f1\b0 \cf0  
+\f0\b small_delay
+\f1\b0 (
+\f0\b \cf2 volatile
+\f1\b0 \cf0  \cf5 uint32_t\cf0  n)\
+\{\
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  (n--) \{\
+        
+\f0\b \cf2 __asm__
+\f1\b0 \cf0 (\cf3 "\ul nop\ulnone "\cf0 );\
+    \}\
+\}\
+\
+\pard\pardeftab720\partightenfactor0
+\cf4 /* =========================================================\cf0 \
+\cf4    PWM SERVO on PA6 = TIM3_CH1\cf0 \
+\cf4    ========================================================= */\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 static
+\f1\b0 \cf0  
+\f0\b \cf2 void
+\f1\b0 \cf0  
+\f0\b pwm_servo_init
+\f1\b0 (
+\f0\b \cf2 void
+\f1\b0 \cf0 )\
+\{\
+    \cf4 /* Enable GPIOA clock */\cf0 \
+    RCC->\cf6 AHB1ENR\cf0  |= RCC_AHB1ENR_GPIOAEN;\
+\
+    \cf4 /* PA6 -> Alternate Function mode */\cf0 \
+    GPIOA->\cf6 MODER\cf0  &= ~(3U << (6U * 2U));\
+    GPIOA->\cf6 MODER\cf0  |=  (2U << (6U * 2U));\
+\
+    \cf4 /* PA6 -> AF2 = TIM3_CH1 */\cf0 \
+    GPIOA->\cf6 AFR\cf0 [0] &= ~(0xFU << (6U * 4U));\
+    GPIOA->\cf6 AFR\cf0 [0] |=  (2U   << (6U * 4U));\
+\
+    \cf4 /* Enable TIM3 clock */\cf0 \
+    RCC->\cf6 APB1ENR\cf0  |= RCC_APB1ENR_TIM3EN;\
+\
+    \cf4 /*\cf0 \
+\pard\pardeftab720\partightenfactor0
+\cf4        Timer clock assumed = 16 MHz\cf0 \
+\
+\cf4        16 MHz / 160 = 100 kHz\cf0 \
+\cf4        tick = 10 us\cf0 \
+\
+\cf4        ARR = 2000 -> 20 \ul ms\ulnone  period\cf0 \
+\cf4        50 Hz \ul servo\ulnone  frequency\cf0 \
+\cf4     */\cf0 \
+\
+    TIM3->\cf6 PSC\cf0  = 160U - 1U;\
+    TIM3->\cf6 ARR\cf0  = 2000U - 1U;\
+\
+    \cf4 /* PWM mode 1 on CH1 */\cf0 \
+    TIM3->\cf6 CCMR1\cf0  &= ~(7U << 4);\
+    TIM3->\cf6 CCMR1\cf0  |=  (6U << 4);\
+\
+    \cf4 /* Enable \ul preload\ulnone  */\cf0 \
+    TIM3->\cf6 CCMR1\cf0  |= TIM_CCMR1_OC1PE;\
+    TIM3->\cf6 CR1\cf0    |= TIM_CR1_ARPE;\
+\
+    \cf4 /* Enable channel output */\cf0 \
+    TIM3->\cf6 CCER\cf0  |= TIM_CCER_CC1E;\
+\
+    \cf4 /* Neutral \ul servo\ulnone  position (1.5 \ul ms\ulnone ) */\cf0 \
+    TIM3->\cf6 CCR1\cf0  = 150U;\
+\
+    \cf4 /* Update registers */\cf0 \
+    TIM3->\cf6 EGR\cf0  |= TIM_EGR_UG;\
+\
+    \cf4 /* Start timer */\cf0 \
+    TIM3->\cf6 CR1\cf0  |= TIM_CR1_CEN;\
+\}\
+\
+\cf4 /* =========================================================\cf0 \
+\cf4    ADC on PA0 = channel 0\cf0 \
+\cf4    ========================================================= */\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 static
+\f1\b0 \cf0  
+\f0\b \cf2 void
+\f1\b0 \cf0  
+\f0\b adc_init_pa0
+\f1\b0 (
+\f0\b \cf2 void
+\f1\b0 \cf0 )\
+\{\
+    \cf4 /* Enable GPIOA clock */\cf0 \
+    RCC->\cf6 AHB1ENR\cf0  |= RCC_AHB1ENR_GPIOAEN;\
+\
+    \cf4 /* PA0 -> analog mode */\cf0 \
+    GPIOA->\cf6 MODER\cf0  |= (3U << (0U * 2U));\
+\
+    \cf4 /* Enable ADC1 clock */\cf0 \
+    RCC->\cf6 APB2ENR\cf0  |= RCC_APB2ENR_ADC1EN;\
+\
+    small_delay(1000);\
+\
+    \cf4 /* ADC \ul prescaler\ulnone  */\cf0 \
+    ADC->\cf6 CCR\cf0  &= ~(3U << 16);\
+\
+    \cf4 /* 12-bit resolution */\cf0 \
+    ADC1->\cf6 CR1\cf0  &= ~(3U << 24);\
+\
+    \cf4 /* Sampling time channel 0 */\cf0 \
+    ADC1->\cf6 SMPR2\cf0  |= (7U << 0);\
+\
+    \cf4 /* Sequence length = 1 */\cf0 \
+    ADC1->\cf6 SQR1\cf0  &= ~(0xFU << 20);\
+\
+    \cf4 /* Channel 0 first conversion */\cf0 \
+    ADC1->\cf6 SQR3\cf0  &= ~(0x1FU << 0);\
+\
+    \cf4 /* Enable ADC */\cf0 \
+    ADC1->\cf6 CR2\cf0  |= ADC_CR2_ADON;\
+\
+    small_delay(1000);\
+\}\
+\
+
+\f0\b \cf2 static
+\f1\b0 \cf0  \cf5 uint16_t\cf0  
+\f0\b adc_read
+\f1\b0 (
+\f0\b \cf2 void
+\f1\b0 \cf0 )\
+\{\
+    \cf4 /* Start conversion */\cf0 \
+    ADC1->\cf6 CR2\cf0  |= ADC_CR2_SWSTART;\
+\
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  (!(ADC1->\cf6 SR\cf0  & ADC_SR_EOC)) \{\}\
+\
+    
+\f0\b \cf2 return
+\f1\b0 \cf0  (\cf5 uint16_t\cf0 )ADC1->\cf6 DR\cf0 ;\
+\}\
+\
+\pard\pardeftab720\partightenfactor0
+\cf4 /* =========================================================\cf0 \
+\cf4    MAIN\cf0 \
+\cf4    ========================================================= */\cf0 \
+\
+\pard\pardeftab720\partightenfactor0
+
+\f0\b \cf2 int
+\f1\b0 \cf0  
+\f0\b main
+\f1\b0 (
+\f0\b \cf2 void
+\f1\b0 \cf0 )\
+\{\
+    \cf5 uint16_t\cf0  adc_value;\
+    \cf5 uint32_t\cf0  ccr_value;\
+\
+    pwm_servo_init();\
+    adc_init_pa0();\
+\
+    
+\f0\b \cf2 while
+\f1\b0 \cf0  (1)\
+    \{\
+        adc_value = adc_read();\
+\
+        \cf4 /* Map ADC 0..4095 \uc0\u8594  1.0..2.0 \ul ms\ulnone  pulse */\cf0 \
+        ccr_value = SERVO_MIN +\
+                    ((\cf5 uint32_t\cf0 )adc_value * (SERVO_MAX - SERVO_MIN)) / 4095U;\
+\
+        TIM3->\cf6 CCR1\cf0  = ccr_value;\
+    \}\
+\}\
+}
