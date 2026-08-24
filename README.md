@@ -99,19 +99,6 @@ Students will develop programs such as:
 
 ---
 
-## Final Project
-
-Students design and implement a complete embedded system integrating:
-
-- sensors
-- microcontroller programming
-- real-time control logic
-- hardware interfacing
-
-Projects may include robotics-oriented applications.
-
----
-
 ## Intended Audience
 
 This repository is intended for:
